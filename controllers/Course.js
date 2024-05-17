@@ -82,7 +82,6 @@ exports.createCourse = async (req, res) => {
 
 
 
-
 exports.showAllCourses = async (req, res) => {
     try {
         const allCourses = await Course.find({},{
@@ -102,7 +101,51 @@ exports.showAllCourses = async (req, res) => {
     }
     catch (e) {
         return res.status(500).json({
+            success:false,
+            message:'Failed to create course', 
+            error:e.message
+        });
+    }
+}
+
+
+
+exports.getCourseDetails = async (req, res) => {
+    try {
+        //get id
+        const {courseId} = req.body;
+        
+        //find course details
+        const courseDetails = await Course.find({_id:courseId})
+                .populate({
+                    path:"instructor",
+                    populate:{path:"additionaltDetails"}
+                })
+                .populate("category")
+                .populate("ratingAndReviews")
+                .populate({
+                    path:"courseContent",
+                    populate:{path:"subSection"}
+                })
+                .exec();
+
+        if(!courseDetails){
+            return res.status(400).json({
+                success:false,
+                message:`Could not find the course with ${courseId}`
+            });
+        }
+
+        return res.status(200).json({
             success:true,
+            message:'Course details fetched successfully'
+        });
+        
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success:false,
             message:'Failed to create course', 
             error:e.message
         });
