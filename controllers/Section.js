@@ -72,7 +72,7 @@ exports.updateSection = async (req, res) => {
 
 
 
-exports.updateSection = async (req, res) => {
+exports.deleteSection = async (req, res) => {
     try {
         const sectionId = req.body.sectionId;
 

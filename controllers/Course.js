@@ -1,7 +1,7 @@
 const Course = require('../models/Course');
 const Category = require('../models/Categories');
 const User = require('../models/User');
-const {uploadImageToCloudinary} = require('../utils/imagareUploader');
+const {uploadImageToCloudinary} = require('../utils/imageUploader');
 
 
 
@@ -82,7 +82,7 @@ exports.createCourse = async (req, res) => {
 
 
 
-exports.showAllCourses = async (req, res) => {
+exports.getAllCourses = async (req, res) => {
     try {
         const allCourses = await Course.find({},{
             courseName:true,
